@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import ColofulMessage from './components/ColofulMessage';
 import { CountUp } from './components/CountUp';
 import { Router } from './components/Router';
+import { ChakraProvider } from "@chakra-ui/react"
 
 
 
@@ -12,6 +13,11 @@ const App = () => {
   const btn = () => {
     setHoge(hoge + 1)  
   }
+
+  function AppContainer({children}){
+    return <ChakraProvider>{children}</ChakraProvider>
+  }
+
   return (
     <div>
       Hello World!!!?

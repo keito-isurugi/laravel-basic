@@ -1,9 +1,10 @@
-import {BrowserRouter, Route, Routes, Link, NavLink, useResolvedPath, useMatch, useNavigate} from "react-router-dom"
+import {BrowserRouter, Route, Routes, Link, NavLink, useResolvedPath, useMatch, useNavigate, Outlet} from "react-router-dom"
 import {Home} from "./Home"
 import {Page1} from "./Page1"
 import {Page2} from "./Page2"
 import {Page1A} from "./Page1A"
 import {Page1B} from "./Page1B"
+import {Page1Index} from "./Page1Index"
 
 export const Router = () => {
   const Nav = () => {
@@ -19,7 +20,6 @@ export const Router = () => {
       path: resolved.pathname,
       end: true,
     });
-    console.log(match);
     return (
       <div>
         <Link style={{ color: match ? 'green' : 'none' }} to={to}> 
@@ -27,6 +27,14 @@ export const Router = () => {
         </Link>
       </div>
     );
+  }
+
+  const Layout = ({ children }) => {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <Outlet />
+      </div>
+    )
   }
 
   return (
@@ -38,11 +46,14 @@ export const Router = () => {
       <NavLink style={({ isActive }) => (isActive ? { color: 'red' } : undefined)} to="/">Home</NavLink>
       <CustomLink to="/">Home</CustomLink>
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/page1" element={<Page1 />}>
-        <Route path=":pageId" element={<Page1A />} />
+      <Route element={<Layout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/page1" element={<Page1 />}>
+          <Route index element={<Page1Index />} />
+          <Route path=":pageId" element={<Page1A />} />
+        </Route>
+        <Route path="/page2" element={<Page2 />} />
       </Route>
-      <Route path="/page2" element={<Page2 />} />
     </Routes> 
   </BrowserRouter>
   )
